@@ -16,6 +16,19 @@ const AddfolderNode = ()=>{
         })
         return {...tree,item:latestNode}
     }
-    return {insertNode}
+
+    const deleteNode = (tree,folderId)=>{
+        if(tree.id===folderId){
+            delete tree.id
+            return tree
+        }
+        let latestNode=[];
+        latestNode= tree.items.map((obj)=>{
+            return deleteNode(obj,folderId)
+        })
+        return {...tree,item:latestNode}
+    }
+
+    return {deleteNode,insertNode}
 }
 export default AddfolderNode

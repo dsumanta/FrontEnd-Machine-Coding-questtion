@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function FileExprorer({ fileData,handleInsertNode=()=>{} }) {
+function FileExprorer({ fileData,handleInsertNode=()=>{},handleDeletNode=()=>{} }) {
   const [openExplorer, setOpneExplore] = useState(false);
   const [showInput,setShowInput] = useState({
     visibility:false,
@@ -11,16 +11,20 @@ function FileExprorer({ fileData,handleInsertNode=()=>{} }) {
     setOpneExplore(true)
     setShowInput({...showInput,visibility:true,isFolder:isFolder})
   }
+  const onDeleteFolder = (e)=>{
+    e.stopPropagation()
+    handleDeletNode(fileData.id)
+    setShowInput({...setShowInput,visibility:false})
+  }
   const addFolder = (e)=>{
       if(e.keyCode===13 && e.target.value){
         handleInsertNode(fileData.id,e.target.value,showInput.isFolder)
         setShowInput({...showInput,visibility:false})
-        
       }
   }
   return (
     <div className=" cursor-pointer">
-      {fileData.isFolder ? (
+      { fileData.id && fileData.isFolder ? (
         <div>
           <div
             onClick={() => setOpneExplore((prev) => !prev)}
@@ -30,6 +34,8 @@ function FileExprorer({ fileData,handleInsertNode=()=>{} }) {
             <span className=" m-6">
               <button onClick={(e)=>onFolderCreate(e,false)} className=" mx-2 p-1 bg-white">File +</button>
               <button  onClick={(e)=>onFolderCreate(e,true)} className=" mx-2 p-1 bg-white">Folder +</button>
+              <button  onClick={(e)=>onDeleteFolder(e)} className=" mx-2 p-1 bg-white">Delete</button>
+
             </span>
           </div>
 
@@ -51,16 +57,19 @@ function FileExprorer({ fileData,handleInsertNode=()=>{} }) {
             {fileData.items.map((items, index) => {
               return (
                 <div key={index}>
-                  <FileExprorer fileData={items} handleInsertNode={handleInsertNode}  />
+                  <FileExprorer fileData={items} handleInsertNode={handleInsertNode} handleDeletNode={handleDeletNode} />
                 </div>
               );
             })}
           </div>
         </div>
       ) : (
-        <div className=" bg-red-300 px-4 py-1 w-fit border border-spacing-1">
-          🗒️  {fileData.name}
-        </div>
+        fileData.id && <div className=" bg-red-300 px-4 py-1 w-fit border border-spacing-1">
+        <span>
+        🗒️  {fileData.name}
+        <button  onClick={(e)=>onDeleteFolder(e)} className=" mx-2 p-1 bg-white">Delete</button>
+        </span>
+      </div>
       )}
     </div>
   );

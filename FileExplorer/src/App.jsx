@@ -5,13 +5,16 @@ import AddfolderNode from './hooks/AddFolderNode'
 
 function App() {
   const [fileData,setFileDta]= useState(FileInfo)
-  const {insertNode}= AddfolderNode();
+  const {deleteNode,insertNode}= AddfolderNode();
   const handleInsertNode = (folderId,name,isFolder)=>{
      insertNode(fileData,folderId,name,isFolder)
   }
+  const handleDeletNode= (folderId)=>{
+    deleteNode(fileData,folderId)
+  }
   return (
     <div>
-      <FileExprorer handleInsertNode={handleInsertNode} fileData= {fileData} />
+      <FileExprorer handleInsertNode={handleInsertNode} handleDeletNode={handleDeletNode} fileData= {fileData} />
     </div>
   )
 }
