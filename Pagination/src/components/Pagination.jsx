@@ -24,8 +24,8 @@ const Pagination = ({ data }) => {
                 console.log("page->",pageNumbr)
                 return (
                     <div className=' bg-slate-100 m-1' key={index}>
-                        <div className=' w-32 h-32'><img className=' object-fill mix-blend-multiply' src={item.images[0]} alt={item.title} /></div>
-                        <div>{item.title}</div>
+                        <div className=' w-32 h-32'><img className=' object-scale-down h-full mix-blend-multiply' src={item.images[0]} alt={item.title} /></div>
+                        <div className=' text-center w-32 text-ellipsis line-clamp-1'>{item.title}</div>
                     </div>
                 )
             })}</div>
